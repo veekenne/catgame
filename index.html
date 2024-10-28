@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLICKY COZY CAT ROOM</title>
+    <title>Cozy Clicky Kitties</title>
     <style>
         body {
             display: flex;
@@ -30,6 +30,7 @@
         let score = 0;
         let responseMessage = "";
         let messageTimer = 0;
+        let gameEnded = false;
 
         function preload() {
             bgImage = loadImage('bg3.webp'); // Load the uploaded background image
@@ -38,16 +39,22 @@
         function setup() {
             createCanvas(1000, 1000).parent(document.body);
             
-            // Define bounding boxes, names, and descriptions for each cat
+            // Define bounding boxes, names, descriptions, and interaction states for each cat
             cats = [
-                { x: 470, y: 811, w: 100, h: 100, name: "Mittens", description: "Mittens loves cuddles and sunbathing." },
-                { x: 687, y: 632, w: 120, h: 120, name: "Whiskers", description: "Whiskers is always curious about everything." },
-                { x: 243, y: 680, w: 150, h: 150, name: "Fluffy", description: "Fluffy enjoys chasing laser pointers." },
-                { x: 222, y: 302, w: 100, h: 120, name: "Shadow", description: "Shadow is shy but loves treats." },
+                { x: 470, y: 811, w: 100, h: 100, name: "Mittens", description: "Mittens loves cuddles and sunbathing.", interactions: { feed: false, pet: false, play: false } },
+                { x: 687, y: 632, w: 120, h: 120, name: "Whiskers", description: "Whiskers is always curious about everything.", interactions: { feed: false, pet: false, play: false } },
+                { x: 243, y: 680, w: 150, h: 150, name: "Fluffy", description: "Fluffy enjoys chasing laser pointers.", interactions: { feed: false, pet: false, play: false } },
+                { x: 222, y: 302, w: 100, h: 120, name: "Shadow", description: "Shadow is shy but loves treats.", interactions: { feed: false, pet: false, play: false } },
+        }
             ];
         }
 
         function draw() {
+            if (gameEnded) {
+                drawEndingScreen();
+                return;
+            }
+
             background(30, 30, 30);
             
             // Draw the background image
@@ -91,6 +98,11 @@
 
             // Display mouse coordinates in the bottom-left corner
             displayMouseCoordinates(mouseX, mouseY);
+
+            // Check if the game has ended
+            if (checkAllInteractionsComplete()) {
+                gameEnded = true;
+            }
         }
 
         function mousePressed() {
@@ -133,14 +145,23 @@
             // Handle the choice made for a particular cat
             let points = 0;
             if (choice === "Feed") {
-                points = 10;
-                responseMessage = `You fed ${cats[catIndex].name}! (+10 points)`;
+                if (!cats[catIndex].interactions.feed) {
+                    points = 10;
+                    cats[catIndex].interactions.feed = true;
+                    responseMessage = `You fed ${cats[catIndex].name}! (+10 points)`;
+                }
             } else if (choice === "Pet") {
-                points = 5;
-                responseMessage = `You petted ${cats[catIndex].name}! (+5 points)`;
+                if (!cats[catIndex].interactions.pet) {
+                    points = 5;
+                    cats[catIndex].interactions.pet = true;
+                    responseMessage = `You petted ${cats[catIndex].name}! (+5 points)`;
+                }
             } else if (choice === "Play") {
-                points = 15;
-                responseMessage = `You played with ${cats[catIndex].name}! (+15 points)`;
+                if (!cats[catIndex].interactions.play) {
+                    points = 15;
+                    cats[catIndex].interactions.play = true;
+                    responseMessage = `You played with ${cats[catIndex].name}! (+15 points)`;
+                }
             }
 
             // Update the score
@@ -153,6 +174,28 @@
             clearChoiceButtons();
         }
 
+        function checkAllInteractionsComplete() {
+            // Check if all cats have been fed, petted, and played with
+            for (let i = 0; i < cats.length; i++) {
+                let interactions = cats[i].interactions;
+                if (!interactions.feed || !interactions.pet || !interactions.play) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function drawEndingScreen() {
+            background(30, 30, 30);
+            fill(255);
+            textSize(36);
+            textAlign(CENTER, CENTER);
+            text("Congratulations!", width / 2, height / 2 - 30);
+            textSize(24);
+            text("You have taken care of all the cats!", width / 2, height / 2 + 10);
+            text(`Final Score: ${score}`, width / 2, height / 2 + 50);
+        }
+
         function displayMouseCoordinates(x, y) {
             fill(255);
             textSize(20);
@@ -162,4 +205,3 @@
     </script>
 </body>
 </html>
-
