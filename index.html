@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Game with Background Image</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222;
+        }
+        canvas {
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script>
+        let player;
+        let playerSize = 50;
+        let playerSpeed = 5;
+        let bgImage;
+
+        function preload() {
+            bgImage = loadImage('bg.webp'); // Replace with your image URL or file path
+        }
+
+        function setup() {
+            createCanvas(1000, 1000).parent(document.body);
+            player = createVector(width / 2, height / 2);
+        }
+
+        function draw() {
+            background(30, 30, 30);
+            
+            // Draw background image
+            image(bgImage, 0, 0, width, height);
+            
+            // Player controls
+            if (keyIsDown(LEFT_ARROW)) {
+                player.x -= playerSpeed;
+            }
+            if (keyIsDown(RIGHT_ARROW)) {
+                player.x += playerSpeed;
+            }
+            if (keyIsDown(UP_ARROW)) {
+                player.y -= playerSpeed;
+            }
+            if (keyIsDown(DOWN_ARROW)) {
+                player.y += playerSpeed;
+            }
+
+            // Draw player
+            fill(255, 100, 100);
+            noStroke();
+            ellipse(player.x, player.y, playerSize);
+
+            // Constrain player within canvas
+            player.x = constrain(player.x, playerSize / 2, width - playerSize / 2);
+            player.y = constrain(player.y, playerSize / 2, height - playerSize / 2);
+        }
+    </script>
+</body>
+</html>
