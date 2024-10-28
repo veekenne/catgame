@@ -35,5 +35,53 @@
             player = createVector(width / 2, height / 2);
         }
 
-      
+        function draw() {
+            background(30, 30, 30);
+            
+            // Draw background image
+            image(bgImage, 0, 0, width, height);
+            
+            // Player controls
+            if (keyIsDown(LEFT_ARROW)) {
+                player.x -= playerSpeed;
+            }
+            if (keyIsDown(RIGHT_ARROW)) {
+                player.x += playerSpeed;
+            }
+            if (keyIsDown(UP_ARROW)) {
+                player.y -= playerSpeed;
+            }
+            if (keyIsDown(DOWN_ARROW)) {
+                player.y += playerSpeed;
+            }
 
+            // Draw player
+            fill(255, 100, 100);
+            noStroke();
+            ellipse(player.x, player.y, playerSize);
+
+            // Constrain player within canvas
+            player.x = constrain(player.x, playerSize / 2, width - playerSize / 2);
+            player.y = constrain(player.y, playerSize / 2, height - playerSize / 2);
+
+            // Display coordinates in the bottom-left corner
+            displayCoordinates(player.x, player.y);
+            displayMouseCoordinates(mouseX, mouseY);
+        }
+
+        function displayCoordinates(x, y) {
+            fill(255);
+            textSize(20);
+            textAlign(LEFT, BOTTOM);
+            text(`Player - X: ${Math.floor(x)}, Y: ${Math.floor(y)}`, 10, height - 50);
+        }
+
+        function displayMouseCoordinates(x, y) {
+            fill(255);
+            textSize(20);
+            textAlign(LEFT, BOTTOM);
+            text(`Mouse - X: ${Math.floor(x)}, Y: ${Math.floor(y)}`, 10, height - 20);
+        }
+    </script>
+</body>
+</html>
