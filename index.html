@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TnT CAT BOARDING HOUSE</title>
+    <title>p5.js Game with Top Center Text Displays</title>
     <style>
         body {
             display: flex;
@@ -32,7 +32,7 @@
         let messageTimer = 0;
 
         function preload() {
-            bgImage = loadImage('bg3.webp'); // Load the uploaded background image
+            bgImage = loadImage('bg.webp3'); // Load the uploaded background image
         }
 
         function setup() {
@@ -66,11 +66,6 @@
                     // Highlight the cat area on mouseover
                     fill(255, 255, 0, 100);
                     rect(cat.x, cat.y, cat.w, cat.h);
-                    
-                    // Display a tooltip with the cat's name
-                    fill(255);
-                    textSize(16);
-                    text(`${cat.name}`, cat.x, cat.y - 10);
 
                     // Set hover flag to true
                     isHovering = true;
@@ -84,23 +79,22 @@
                 cursor('default');
             }
 
-            // Display mouse coordinates in the bottom-left corner
-            displayMouseCoordinates(mouseX, mouseY);
-
-            // Display the player's score
+            // Display the player's score at the top center
             fill(255);
             textSize(24);
-            textAlign(LEFT, TOP);
-            text(`Score: ${score}`, 10, 10);
+            textAlign(CENTER, TOP);
+            text(`Score: ${score}`, width / 2, 10);
 
-            // Display the response message on the canvas
+            // Display the response message or cat description at the top center
             if (messageTimer > 0) {
                 fill(255, 200, 0);
-                textSize(24);
-                textAlign(CENTER, CENTER);
-                text(responseMessage, width / 2, height - 60);
+                textSize(20);
+                text(responseMessage, width / 2, 40);
                 messageTimer--;
             }
+
+            // Display mouse coordinates in the bottom-left corner
+            displayMouseCoordinates(mouseX, mouseY);
         }
 
         function mousePressed() {
@@ -172,5 +166,4 @@
     </script>
 </body>
 </html>
-
 
