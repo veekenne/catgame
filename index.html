@@ -37,14 +37,14 @@
         }
 
         function setup() {
-            createCanvas(1000, 1000).parent(document.body);
+            createCanvas(800, 800).parent(document.body);
             
             // Define bounding boxes, names, descriptions, and interaction states for each cat
             cats = [
                 { x: 497, y: 818, w: 100, h: 100, name: "Mittens", description: "Mittens loves cuddles and sunbathing.", interactions: { feed: false, pet: false, play: false } },
-                { x: 698, y: 635, w: 100, h: 100, name: "Whiskers", description: "Whiskers is always curious about everything.", interactions: { feed: false, pet: false, play: false } },
-                { x: 221, y: 311, w: 100, h: 100, name: "Fluffy", description: "Fluffy enjoys chasing laser pointers.", interactions: { feed: false, pet: false, play: false } },
-                { x: 226, y: 680, w: 100, h: 100, name: "Shadow", description: "Shadow is shy but loves treats.", interactions: { feed: false, pet: false, play: false } },
+                { x: 698, y: 635, w: 100, h: 100, name: "Whiskers", description: "Whiskers enjoys biting feet.", interactions: { feed: false, pet: false, play: false } },
+                { x: 221, y: 311, w: 100, h: 100, name: "Dr. Fancy Bees", description: "Dr. Fancy Bees enjoys committing tax fraud.", interactions: { feed: false, pet: false, play: false } },
+                { x: 226, y: 680, w: 100, h: 100, name: "Bogost", description: "Bogost is shy but loves treats and writes for The Atlantic.", interactions: { feed: false, pet: false, play: false } },
             ];
         }
 
@@ -89,7 +89,7 @@
 
             // Display the response message or cat description at the top center
             if (messageTimer > 0) {
-                fill(0, 55, 255);
+                fill(200, 0, 255);
                 textSize(35);
                 text(responseMessage, width / 2, 40);
                 messageTimer--;
