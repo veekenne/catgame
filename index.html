@@ -17,7 +17,7 @@
             border: 2px solid #fff;
         }
         .choice-button {
-            font-size: 20px;
+            font-size: 15px;
             padding: 10px 20px;
         }
     </style>
@@ -45,10 +45,10 @@
             
             // Define bounding boxes, names, descriptions, and interaction states for each cat
             cats = [
-                { x: 497, y: 818, w: 100, h: 100, name: "Mittens", description: "Mittens loves cuddles and sunbathing.", interactions: { feed: false, pet: false, play: false } },
-                { x: 698, y: 635, w: 100, h: 100, name: "Whiskers", description: "Whiskers enjoys biting feet.", interactions: { feed: false, pet: false, play: false } },
-                { x: 221, y: 311, w: 100, h: 100, name: "Dr. Fancy Bees", description: "Dr. Fancy Bees enjoys committing tax fraud.", interactions: { feed: false, pet: false, play: false } },
-                { x: 226, y: 680, w: 100, h: 100, name: "Bogost", description: "Bogost is shy but loves treats and writes for The Atlantic.", interactions: { feed: false, pet: false, play: false } },
+                { x: 243, y: 482, w: 50, h: 50, name: "Mittens", description: "Mittens loves cuddles and sunbathing.", interactions: { feed: false, pet: false, play: false } },
+                { x: 358, y: 311, w: 50, h: 50, name: "Whiskers", description: "Whiskers enjoys biting feet.", interactions: { feed: false, pet: false, play: false } },
+                { x: 131, y: 346, w: 50, h: 50, name: "Dr. Fancy Bees", description: "Dr. Fancy Bees enjoys committing tax fraud.", interactions: { feed: false, pet: false, play: false } },
+                { x: 112, y: 157, w: 100, h: 100, name: "Bogost", description: "Bogost is shy but loves treats and writes for The Atlantic.", interactions: { feed: false, pet: false, play: false } },
             ];
         }
 
@@ -87,14 +87,14 @@
 
             // Display the player's score at the top center
             fill(255);
-            textSize(24);
+            textSize(18);
             textAlign(CENTER, TOP);
             text(`Score: ${score}`, width / 2, 10);
 
             // Display the response message or cat description at the top center
             if (messageTimer > 0) {
                 fill(200, 0, 255);
-                textSize(35);
+                textSize(22);
                 text(responseMessage, width / 2, 40);
                 messageTimer--;
             }
@@ -191,10 +191,10 @@
         function drawEndingScreen() {
             background(30, 30, 30);
             fill(255);
-            textSize(36);
+            textSize(18);
             textAlign(CENTER, CENTER);
             text("Congratulations!", width / 2, height / 2 - 30);
-            textSize(24);
+            textSize(20);
             text("You have taken care of all the cats!", width / 2, height / 2 + 10);
             text(`Final Score: ${score}`, width / 2, height / 2 + 50);
         }
