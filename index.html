@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>p5.js Game with Clickable Cat Interaction Zones and Messages</title>
+    <title>p5.js Game with Clickable Cat Choices and Score</title>
     <style>
         body {
             display: flex;
@@ -24,7 +24,11 @@
         let bgImage;
         let cats = [];
         let isHovering = false;
-        let clickedMessage = "";
+        let clickedCatIndex = -1;
+        let choices = ["Feed", "Pet", "Play"];
+        let choiceButtons = [];
+        let score = 0;
+        let responseMessage = "";
         let messageTimer = 0;
 
         function preload() {
@@ -83,26 +87,76 @@
             // Display mouse coordinates in the bottom-left corner
             displayMouseCoordinates(mouseX, mouseY);
 
-            // Display the clicked message on the canvas
+            // Display the player's score
+            fill(255);
+            textSize(24);
+            textAlign(LEFT, TOP);
+            text(`Score: ${score}`, 10, 10);
+
+            // Display the response message on the canvas
             if (messageTimer > 0) {
                 fill(255, 200, 0);
                 textSize(24);
                 textAlign(CENTER, CENTER);
-                text(clickedMessage, width / 2, height - 60);
+                text(responseMessage, width / 2, height - 60);
                 messageTimer--;
             }
         }
 
         function mousePressed() {
+            // Clear any existing choice buttons
+            clearChoiceButtons();
+
             // Check if the mouse is pressed over any cat zone
             for (let i = 0; i < cats.length; i++) {
                 let cat = cats[i];
                 if (mouseX > cat.x && mouseX < cat.x + cat.w && mouseY > cat.y && mouseY < cat.y + cat.h) {
-                    // Set message and timer
-                    clickedMessage = `You clicked on Cat ${i + 1}!`;
-                    messageTimer = 120; // Display message for 120 frames (~2 seconds at 60fps)
+                    // Store the index of the clicked cat
+                    clickedCatIndex = i;
+
+                    // Create choice buttons near the clicked cat
+                    let buttonX = cat.x + cat.w + 10;
+                    let buttonY = cat.y;
+                    for (let j = 0; j < choices.length; j++) {
+                        let btn = createButton(choices[j]);
+                        btn.position(buttonX, buttonY + j * 30);
+                        btn.mousePressed(() => handleChoice(choices[j], i));
+                        choiceButtons.push(btn);
+                    }
                 }
             }
+        }
+
+        function clearChoiceButtons() {
+            // Remove any existing choice buttons
+            for (let i = 0; i < choiceButtons.length; i++) {
+                choiceButtons[i].remove();
+            }
+            choiceButtons = [];
+        }
+
+        function handleChoice(choice, catIndex) {
+            // Handle the choice made for a particular cat
+            let points = 0;
+            if (choice === "Feed") {
+                points = 10;
+                responseMessage = `You fed Cat ${catIndex + 1}! (+10 points)`;
+            } else if (choice === "Pet") {
+                points = 5;
+                responseMessage = `You petted Cat ${catIndex + 1}! (+5 points)`;
+            } else if (choice === "Play") {
+                points = 15;
+                responseMessage = `You played with Cat ${catIndex + 1}! (+15 points)`;
+            }
+
+            // Update the score
+            score += points;
+
+            // Set message timer to display the response for 2 seconds
+            messageTimer = 120;
+
+            // Clear the choice buttons
+            clearChoiceButtons();
         }
 
         function displayMouseCoordinates(x, y) {
@@ -114,3 +168,4 @@
     </script>
 </body>
 </html>
+
