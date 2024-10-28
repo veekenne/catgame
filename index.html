@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>p5.js Game with Coordinates in Bottom-Left Corner</title>
+    <title>p5.js Game with Cat Interaction Zones</title>
     <style>
         body {
             display: flex;
@@ -21,59 +21,52 @@
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
     <script>
-        let player;
-        let playerSize = 50;
-        let playerSpeed = 5;
         let bgImage;
+        let cats = [];
 
         function preload() {
-            bgImage = loadImage('bg.webp'); // Replace with your image URL or file path
+            bgImage = loadImage('bg.webp'); // Load the uploaded background image
         }
 
         function setup() {
             createCanvas(1000, 1000).parent(document.body);
-            player = createVector(width / 2, height / 2);
+            
+            // Define bounding boxes for each cat (x, y, width, height)
+            cats = [
+                { x: 100, y: 50, w: 100, h: 100 },   // Adjust coordinates and sizes for each cat
+                { x: 300, y: 80, w: 120, h: 120 },
+                { x: 600, y: 200, w: 150, h: 150 },
+                { x: 400, y: 300, w: 100, h: 120 },
+                { x: 700, y: 500, w: 150, h: 150 },
+                { x: 200, y: 600, w: 100, h: 100 },
+                { x: 450, y: 650, w: 100, h: 120 },
+                { x: 800, y: 750, w: 120, h: 120 }
+            ];
         }
 
         function draw() {
             background(30, 30, 30);
             
-            // Draw background image
+            // Draw the background image
             image(bgImage, 0, 0, width, height);
             
-            // Player controls
-            if (keyIsDown(LEFT_ARROW)) {
-                player.x -= playerSpeed;
-            }
-            if (keyIsDown(RIGHT_ARROW)) {
-                player.x += playerSpeed;
-            }
-            if (keyIsDown(UP_ARROW)) {
-                player.y -= playerSpeed;
-            }
-            if (keyIsDown(DOWN_ARROW)) {
-                player.y += playerSpeed;
+            // Draw interaction zones for each cat
+            for (let i = 0; i < cats.length; i++) {
+                let cat = cats[i];
+                if (mouseX > cat.x && mouseX < cat.x + cat.w && mouseY > cat.y && mouseY < cat.y + cat.h) {
+                    // Highlight the cat area on mouseover
+                    fill(255, 255, 0, 100);
+                    rect(cat.x, cat.y, cat.w, cat.h);
+                    
+                    // Display a tooltip or message
+                    fill(255);
+                    textSize(16);
+                    text(`Cat ${i + 1}`, cat.x, cat.y - 10);
+                }
             }
 
-            // Draw player
-            fill(255, 100, 100);
-            noStroke();
-            ellipse(player.x, player.y, playerSize);
-
-            // Constrain player within canvas
-            player.x = constrain(player.x, playerSize / 2, width - playerSize / 2);
-            player.y = constrain(player.y, playerSize / 2, height - playerSize / 2);
-
-            // Display coordinates in the bottom-left corner
-            displayCoordinates(player.x, player.y);
+            // Display mouse coordinates in the bottom-left corner
             displayMouseCoordinates(mouseX, mouseY);
-        }
-
-        function displayCoordinates(x, y) {
-            fill(255);
-            textSize(20);
-            textAlign(LEFT, BOTTOM);
-            text(`Player - X: ${Math.floor(x)}, Y: ${Math.floor(y)}`, 10, height - 50);
         }
 
         function displayMouseCoordinates(x, y) {
