@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>p5.js Game with Cat Interaction Zones</title>
+    <title>p5.js Game with Clickable Cat Interaction Zones and Messages</title>
     <style>
         body {
             display: flex;
@@ -23,9 +23,12 @@
     <script>
         let bgImage;
         let cats = [];
+        let isHovering = false;
+        let clickedMessage = "";
+        let messageTimer = 0;
 
         function preload() {
-            bgImage = loadImage('bg.webp'); // Load the uploaded background image
+            bgImage = loadImage('/mnt/data/bg.webp'); // Load the uploaded background image
         }
 
         function setup() {
@@ -50,6 +53,8 @@
             // Draw the background image
             image(bgImage, 0, 0, width, height);
             
+            isHovering = false; // Reset hover flag
+            
             // Draw interaction zones for each cat
             for (let i = 0; i < cats.length; i++) {
                 let cat = cats[i];
@@ -62,11 +67,42 @@
                     fill(255);
                     textSize(16);
                     text(`Cat ${i + 1}`, cat.x, cat.y - 10);
+
+                    // Set hover flag to true
+                    isHovering = true;
                 }
+            }
+
+            // Change cursor based on whether mouse is hovering over an interactive area
+            if (isHovering) {
+                cursor('pointer');
+            } else {
+                cursor('default');
             }
 
             // Display mouse coordinates in the bottom-left corner
             displayMouseCoordinates(mouseX, mouseY);
+
+            // Display the clicked message on the canvas
+            if (messageTimer > 0) {
+                fill(255, 200, 0);
+                textSize(24);
+                textAlign(CENTER, CENTER);
+                text(clickedMessage, width / 2, height - 60);
+                messageTimer--;
+            }
+        }
+
+        function mousePressed() {
+            // Check if the mouse is pressed over any cat zone
+            for (let i = 0; i < cats.length; i++) {
+                let cat = cats[i];
+                if (mouseX > cat.x && mouseX < cat.x + cat.w && mouseY > cat.y && mouseY < cat.y + cat.h) {
+                    // Set message and timer
+                    clickedMessage = `You clicked on Cat ${i + 1}!`;
+                    messageTimer = 120; // Display message for 120 frames (~2 seconds at 60fps)
+                }
+            }
         }
 
         function displayMouseCoordinates(x, y) {
